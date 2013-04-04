@@ -1,4 +1,5 @@
 Django==1.5.1
+South==0.7.6
 logilab-astng==0.24.1
 logilab-common==0.58.1
 pylint==0.26.0

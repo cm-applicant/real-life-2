@@ -8,7 +8,9 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'real_life.views.home', name='home'),
     url(r'^brander/', include('real_life.tweet_brander.urls')),
-
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login'),
+    
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

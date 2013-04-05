@@ -1,9 +1,7 @@
 *.log
 *.pot
-*.pyc
-local_settings.py
-
 env
 .c9revisions
 *.py[co]
 real_life/real_life.db
+real_life/real_life/local_settings.py

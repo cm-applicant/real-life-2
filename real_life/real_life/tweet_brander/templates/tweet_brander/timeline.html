@@ -1,0 +1,15 @@
+{% if tweets %}
+<h1>Recent Tweets</h1>
+
+<ul>
+{% for tweet in tweets %}
+  <li><strong>{{ tweet.text }}</strong><br/><span class="muted">at {{ tweet.GetCreatedAt }}</span></li>
+{% endfor %}
+</ul>
+
+{% else %}
+<h1>No Recent Tweets</h1>
+
+<p>Perhaps you should log in to create some?</p>
+
+{% endif %}

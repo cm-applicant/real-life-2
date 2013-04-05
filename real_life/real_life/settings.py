@@ -84,9 +84,6 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = '53bdl9*bf#@h(_f77sp6kyj#aq_zq25r-)mfya%(ix$8gn5oe9'
-
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -159,3 +156,10 @@ LOGGING = {
         },
     }
 }
+
+LOGIN_REDIRECT_URL = '/brander/'
+
+try:
+    from local_settings import *
+except:
+    pass

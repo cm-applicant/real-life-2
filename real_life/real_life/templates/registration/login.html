@@ -20,5 +20,13 @@
 </form>
 
 </div> <!-- /container -->
+{% endblock %}
 
+{% block scripts %}
+<script type="text/javascript">
+    $(function () {
+        $('ul.nav li').removeClass('active');
+        $($('ul.nav li')[1]).addClass('active');
+    });
+</script>
 {% endblock %}

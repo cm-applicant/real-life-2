@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if isSubmitter or isModerator or isPublisher %}
+<div class="container">
+  {% if tweets %}
+    <h1>Pretweets</h1>
+    
+    <ul class="unstyled">
+    {% for pretweet in pretweets %}
+      <li>
+        <div>
+          <strong>{{ pretweet.content }}</strong><br/><span class="muted">at {{ pretweet.pub_date }}</span><br/>
+          {% if isModerator or pretweet.user == user %}<a class="btn btn-info btn-mini"><i class="icon-edit icon-white"></i> Moderate</a>{% endif %}
+          {% if isPublisher %}<a class="btn btn-info btn-mini"><i class="icon-share icon-white"></i> Publish</a>{% endif %}
+        </div>
+      </li>
+    {% empty %}
+    <p>Perhaps you should tweet some?</p>
+    {% endfor %}
+    </ul>
+    
+    {% if isSubmitter %}
+    <div class="row">
+        <a class="btn btn-primary btn-small pull-right"><i class="icon-pencil icon-white"></i> Create New</a>
+    </div>
+    {% endif %}
+    
+  {% else %}
+    <h1>No Recent Pretweets</h1>
+    
+    <p>Perhaps you should tweet some?</p>
+
+  {% endif %}
+</div>
+{% endif %}
+
+<div class="container">
+
+  {% include 'tweet_brander/timeline.html' %}
+
+</div> <!-- /container -->
+{% endblock %}

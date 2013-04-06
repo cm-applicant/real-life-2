@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db.models import Q
 import twitter
 from models import Tweet
+from forms import TweetForm
 
 def home(request):
     api = twitter.Api(consumer_key=settings.TW_C_KEY,
@@ -26,9 +27,30 @@ def home(request):
     tpl_data = {
         'tweets': api.GetUserTimeline('theCompanyAcct'),
         'pretweets': Tweet.objects.filter(tweet_filter),
-        'isSubmitter': is_sub,
         'isModerator': is_mod,
         'isPublisher': is_pub
     }
 
-    return render_to_response('tweet_brander/index.html', tpl_data, context_instance=RequestContext(request))
+    return render_to_response('tweet_brander/index.html', tpl_data, 
+        context_instance=RequestContext(request))
+    
+def submit(request):
+    form = TweetForm({'owner': request.user}, auto_id=True)
+    
+    tpl_data = {
+        'form': form
+    }
+    
+    return render_to_response('tweet_brander/submit.html', tpl_data,
+        context_instance=RequestContext(request))
+        
+def moderate(request, id):
+    tweet = Tweet.objects.get(id=id)
+    form = TweetForm(instance=tweet)
+    
+    tpl_data = {
+        'form': form
+    }
+    
+    return render_to_response('tweet_brander/moderate.html', tpl_data,
+        context_instance=RequestContext(request))

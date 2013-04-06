@@ -5,4 +5,6 @@ import views
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', views.home, name='home'),
+    url(r'^submit$', views.submit, name='submit'),
+    url(r'^moderate/(?P<id>\d*)/$', views.moderate, name='moderate'),
 )

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+  <h1>Compose Tweet</h1>
+  
+  <form action="{% url 'submit' %}" method="post" class="form-horizontal">
+  {% include 'tweet_brander/tweet_form.html' %}
+  </form>
+  
+</div> <!-- /container -->
+{% endblock %}

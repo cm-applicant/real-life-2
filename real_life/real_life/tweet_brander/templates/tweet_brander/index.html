@@ -2,7 +2,7 @@
 
 {% block content %}
 
-{% if isSubmitter or isModerator or isPublisher %}
+{% if perms.tweet_brander.submit_tweet or perms.tweet_brander.moderate_tweet or perms.tweet_brander.publish_tweet %}
 <div class="container">
   {% if tweets %}
     <h1>Pretweets</h1>
@@ -12,8 +12,8 @@
       <li>
         <div>
           <strong>{{ pretweet.content }}</strong><br/><span class="muted">at {{ pretweet.pub_date }}</span><br/>
-          {% if isModerator or pretweet.user == user %}<a class="btn btn-info btn-mini"><i class="icon-edit icon-white"></i> Moderate</a>{% endif %}
-          {% if isPublisher %}<a class="btn btn-info btn-mini"><i class="icon-share icon-white"></i> Publish</a>{% endif %}
+          {% if perms.tweet_brander.moderate_tweet or pretweet.user == user %}<a class="btn btn-info btn-mini" href="{% url 'moderate' pretweet.id %}"><i class="icon-edit icon-white"></i> Moderate</a>{% endif %}
+          {% if perms.tweet_brander.publish_tweet %}<a class="btn btn-info btn-mini"><i class="icon-share icon-white"></i> Publish</a>{% endif %}
         </div>
       </li>
     {% empty %}
@@ -21,9 +21,9 @@
     {% endfor %}
     </ul>
     
-    {% if isSubmitter %}
+    {% if perms.tweet_brander.submit_tweet %}
     <div class="row">
-        <a class="btn btn-primary btn-small pull-right"><i class="icon-pencil icon-white"></i> Create New</a>
+        <a class="btn btn-primary btn-small pull-right" href="{% url 'submit' %}"><i class="icon-pencil icon-white"></i> Create New</a>
     </div>
     {% endif %}
     

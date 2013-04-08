@@ -157,7 +157,7 @@ LOGGING = {
     }
 }
 
-LOGIN_REDIRECT_URL = '/brander/'
+LOGIN_REDIRECT_URL = '/brander/submit'
 
 try:
     from local_settings import *

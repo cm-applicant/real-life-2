@@ -1,10 +1,13 @@
 from django.shortcuts import render_to_response
+from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.conf import settings
 from django.db.models import Q
+from django.core.urlresolvers import reverse
 import twitter
 from models import Tweet
 from forms import TweetForm
+from datetime import datetime
 
 def home(request):
     api = twitter.Api(consumer_key=settings.TW_C_KEY,
@@ -26,17 +29,23 @@ def home(request):
     
     tpl_data = {
         'tweets': api.GetUserTimeline('theCompanyAcct'),
-        'pretweets': Tweet.objects.filter(tweet_filter),
-        'isModerator': is_mod,
-        'isPublisher': is_pub
+        'pretweets': Tweet.objects.filter(tweet_filter).order_by('-pub_date')
     }
 
     return render_to_response('tweet_brander/index.html', tpl_data, 
         context_instance=RequestContext(request))
     
 def submit(request):
-    form = TweetForm({'owner': request.user}, auto_id=True)
-    
+    if request.method == 'GET':
+        form = TweetForm({'owner': request.user}, auto_id=True)
+    else:
+        form = TweetForm(request.POST, auto_id=True)
+        if form.is_valid():
+            form.instance.pub_date = datetime.now()
+            form.instance.save()
+            
+            return HttpResponseRedirect(reverse('home'))
+        
     tpl_data = {
         'form': form
     }

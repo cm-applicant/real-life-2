@@ -27,3 +27,13 @@ body {
     margin-bottom: 15px;
     padding: 7px 9px;
 }
+
+.controls #content_length {
+    display:none;
+    margin-left: 25px;
+}
+.controls .errorlist {
+    color: #ff0000;
+    list-style: none outside none;
+    margin-left: 0;
+}

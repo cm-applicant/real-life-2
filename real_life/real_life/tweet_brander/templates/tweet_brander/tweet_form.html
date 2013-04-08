@@ -2,10 +2,13 @@
     <div class="control-group">
       <label class="control-label" for="content">{{ form.content.label }}</label>
       <div class="controls">
-        {{ form.content }}
+        {{ form.content }}<span id="content_length">Letter count: 0</span><br/>
+        {{ form.content.errors }}
       </div>
     </div>
-    {% if form.owner.value.username != user.username %}
+    {% if form.owner.value|add:0 != user.id %}
+    {{ form.owner.value }}
+    {{ user.id }}
     <div class="control-group">
       <label class="control-label" for="sender">{{ form.owner.label }}</label>
       <div class="controls">
@@ -13,7 +16,7 @@
       </div>
     </div>
     {% else %}
-    <input type="hidden" name="owner" value="{{ form.instance.owner.username }}" />
+    <input type="hidden" name="owner" value="{{ form.owner.value }}" />
     {% endif %}
     {% if perms.tweet_brander.moderate_tweet %}
     <div class="control-group">

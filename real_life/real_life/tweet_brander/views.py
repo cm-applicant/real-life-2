@@ -8,6 +8,7 @@ import twitter
 from models import Tweet
 from forms import TweetForm
 from datetime import datetime
+import re
 
 def home(request):
     api = twitter.Api(consumer_key=settings.TW_C_KEY,

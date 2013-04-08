@@ -159,6 +159,15 @@ LOGGING = {
 
 LOGIN_REDIRECT_URL = '/brander/submit'
 
+import re
+DIRTY_WORDS = [
+    ('big[ -_]?box', re.I),
+    ('generic', re.I),
+    ('commodity', re.I),
+    ('mass[ -_]?market', re.I),
+    ('\\b[A-Z]{2,}\\b', None),
+]
+
 try:
     from local_settings import *
 except:

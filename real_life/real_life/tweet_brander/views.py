@@ -30,7 +30,8 @@ def home(request):
     
     tpl_data = {
         'tweets': api.GetUserTimeline('theCompanyAcct'),
-        'pretweets': Tweet.objects.filter(tweet_filter).order_by('-pub_date')
+        'pretweets': Tweet.objects.filter(tweet_filter).order_by('-pub_date'),
+        'shame': request.GET['shame'] if 'shame' in request.GET else 'false'
     }
 
     return render_to_response('tweet_brander/index.html', tpl_data, 
@@ -40,12 +41,24 @@ def submit(request):
     if request.method == 'GET':
         form = TweetForm({'owner': request.user}, auto_id=True)
     else:
-        form = TweetForm(request.POST, auto_id=True)
+        form = TweetForm(request.POST.copy(), auto_id=True)
         if form.is_valid():
+            if form.is_shameful():
+                form.instance.blocked = True
+            else:
+                api = twitter.Api(consumer_key=settings.TW_C_KEY,
+                    consumer_secret=settings.TW_C_SECRET, 
+                    access_token_key=settings.TW_AT_KEY, 
+                    access_token_secret=settings.TW_AT_SECRET)
+                    
+                api.PostUpdate(form.instance.content)
+                
+                form.instance.published = True
+            
             form.instance.pub_date = datetime.now()
             form.instance.save()
-            
-            return HttpResponseRedirect(reverse('home'))
+
+            return HttpResponseRedirect(reverse('home') + '?shame=' + str(form.is_shameful()).lower())
         
     tpl_data = {
         'form': form

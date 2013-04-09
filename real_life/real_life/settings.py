@@ -168,6 +168,15 @@ DIRTY_WORDS = [
     ('\\b[A-Z]{2,}\\b', None),
 ]
 
+BRANDING = [
+    ('consumer', 'Buyer', re.I),
+    ('(maker|subscriber)', 'Maker', re.I),
+    ('custom\s*made', 'CustomMade', re.I),
+    ('(admin|back\s*end)', 'Dashboard', re.I),
+    ('conback', 'Buyer Dashboard', re.I),
+    ('subback', 'Maker Dashboard', re.I),
+]
+
 try:
     from local_settings import *
 except:

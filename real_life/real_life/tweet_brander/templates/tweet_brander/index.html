@@ -3,6 +3,13 @@
 {% block content %}
 
 {% if perms.tweet_brander.submit_tweet or perms.tweet_brander.moderate_tweet or perms.tweet_brander.publish_tweet %}
+{% if shame = 'true' %}
+<div id="shame" class="container">
+    <h1>Shame on You!</h1>
+    <p>This tweet has been sent to an editor for review.</p>
+</div>
+{% endif %}
+
 <div class="container">
   {% if tweets %}
     <h1>Pretweets</h1>
@@ -11,8 +18,8 @@
     {% for pretweet in pretweets %}
       <li>
         <div>
-          <strong>{{ pretweet.content }}</strong><br/><span class="muted">at {{ pretweet.pub_date }}</span><br/>
-          {% if perms.tweet_brander.moderate_tweet or pretweet.user == user %}<a class="btn btn-info btn-mini" href="{% url 'moderate' pretweet.id %}"><i class="icon-edit icon-white"></i> Moderate</a>{% endif %}
+          <strong>{{ pretweet.content }}</strong><br/><span class="muted">at {{ pretweet.pub_date }} by {{ pretweet.owner }}</span><br/>
+          {% if perms.tweet_brander.moderate_tweet or pretweet.owner == user %}<a class="btn btn-info btn-mini" href="{% url 'moderate' pretweet.id %}"><i class="icon-edit icon-white"></i> Moderate</a>{% endif %}
           {% if perms.tweet_brander.publish_tweet %}<a class="btn btn-info btn-mini"><i class="icon-share icon-white"></i> Publish</a>{% endif %}
         </div>
       </li>
@@ -41,4 +48,7 @@
   {% include 'tweet_brander/timeline.html' %}
 
 </div> <!-- /container -->
+{% endblock %}
+
+{% block scripts %}
 {% endblock %}
